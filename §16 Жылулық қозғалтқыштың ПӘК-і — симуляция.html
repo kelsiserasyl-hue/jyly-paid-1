@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="kk"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>§16 Жылулық қозғалтқыштың ПӘК-і — интерактивті симуляция</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3f1;--card:#fff;--ink:#14302c;--mut:#55706b;--hot:#d9452b;--cold:#2a6fb0;--work:#1f8a5b;--line:#cfdcd8;--acc:#14302c;--onacc:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a18;--card:#18262.3;--card:#182623;--ink:#e6f0ed;--mut:#9ab3ad;--line:#2c403c;--acc:#e6f0ed;--onacc:#0f1a18;--hot:#ff6b4e;--cold:#5ea8ee;--work:#43c98c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1a18;--card:#182623;--ink:#e6f0ed;--mut:#9ab3ad;--line:#2c403c;--acc:#e6f0ed;--onacc:#0f1a18;--hot:#ff6b4e;--cold:#5ea8ee;--work:#43c98c;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "PT Sans",system-ui,sans-serif}
+.w{max-width:900px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.7rem;line-height:1.2;margin:0 0 4px}h2{font-size:1.25rem;margin:0 0 8px}
+.sub{color:var(--mut);margin:0 0 16px}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+nav button,.b{font:inherit;border:1.5px solid var(--acc);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected=true],.b.on{background:var(--acc);color:var(--onacc)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--cold);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.f{font-size:1.25rem;text-align:center;padding:10px;background:var(--bg);border-radius:8px;margin:10px 0;overflow-x:auto}
+.f i{font-family:Georgia,serif}.fr{display:inline-block;vertical-align:middle;text-align:center}
+.fr>span{display:block;padding:0 4px}.fr>span:first-child{border-bottom:1.5px solid currentColor}
+label{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--work)}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:700px){.g{grid-template-columns:1fr}}
+.big{font-size:2.4rem;font-weight:700;color:var(--work);line-height:1}
+svg{width:100%;height:auto;display:block}svg text{fill:var(--ink);font-family:inherit}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.note{color:var(--mut);font-size:.95rem}
+.ok{color:var(--work);font-weight:700}.no{color:var(--hot);font-weight:700}
+.bar{height:26px;border-radius:5px;background:var(--work);color:#fff;padding:2px 8px;transition:width .6s;min-width:46px;font-weight:700}
+.tbl{width:100%;border-collapse:collapse}.tbl td,.tbl th{border:1px solid var(--line);padding:6px 8px;text-align:left}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;border-radius:8px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body><div class="w">
+<h1>§16. Жылулық қозғалтқыштың ПӘК-і</h1>
+<p class="sub">3-топ · Оқулық материалына негізделген интерактивті зерттеу симуляциясы</p>
+<nav role="tablist" id="nav"></nav>
+
+<!-- 1 -->
+<section id="t0">
+<div class="card"><h2>I. Жылулық қозғалтқыштардың ПӘК-і</h2>
+<p>Қыздырғыш жұмыстық денеге энергия <i>Q</i><sub>1</sub> береді. Жұмыстық дене механикалық жұмыс <i>A</i> атқарады, ал энергияның бір бөлігі <i>Q</i><sub>2</sub> суытқышқа беріледі. Пайдалы әрекет коэффициенті — қыздырғыштан алынған энергияның қанша бөлігі жұмысқа айналатынын көрсететін физикалық шама.</p>
+<div class="f"><i>A = Q</i><sub>1</sub> − <i>Q</i><sub>2</sub> &nbsp; ; &nbsp; <i>η</i> = <span class="fr"><span><i>A</i></span><span><i>Q</i><sub>1</sub></span></span>·100% = <span class="fr"><span><i>Q</i><sub>1</sub>−<i>Q</i><sub>2</sub></span><span><i>Q</i><sub>1</sub></span></span>·100% = (1 − <span class="fr"><span><i>Q</i><sub>2</sub></span><span><i>Q</i><sub>1</sub></span></span>)·100%</div></div>
+<div class="g"><div class="card"><h2>Параметрлер</h2>
+<label>Q₁ — қыздырғыштан алынған <span id="q1v"></span></label><input type="range" id="q1" min="100" max="1000" step="10" value="500" aria-label="Q1">
+<label>Q₂ — суытқышқа берілген <span id="q2v"></span></label><input type="range" id="q2" min="0" max="1000" step="10" value="300" aria-label="Q2">
+<div class="row"><button class="b" data-p="500,450">Бу машинасы</button><button class="b" data-p="500,390">Оттегі ИЖҚ</button><button class="b" data-p="500,280">Дизель</button><button class="b" data-p="500,0">Q₂ = 0 (мүмкін емес)</button></div>
+<p class="note" id="msg1"></p></div>
+<div class="card"><svg viewBox="0 0 300 260" aria-label="Энергия ағыны"><rect x="10" y="5" width="280" height="34" rx="6" fill="var(--hot)"/><text x="150" y="28" text-anchor="middle" fill="#fff" style="fill:#fff;font-weight:700">Қыздырғыш</text>
+<rect id="f1" x="130" y="39" width="40" height="50" fill="var(--hot)" opacity=".6"/><circle cx="150" cy="115" r="30" fill="none" stroke="var(--ink)" stroke-width="3"/><text x="150" y="120" text-anchor="middle">Машина</text>
+<rect id="fa" x="180" y="108" width="40" height="14" fill="var(--work)"/><text x="262" y="118" text-anchor="middle" style="fill:var(--work);font-weight:700">A</text>
+<rect id="f2" x="130" y="145" width="40" height="50" fill="var(--cold)" opacity=".6"/><rect x="10" y="195" width="280" height="34" rx="6" fill="var(--cold)"/><text x="150" y="218" text-anchor="middle" style="fill:#fff;font-weight:700">Суытқыш</text></svg>
+<div style="text-align:center">A = <b id="Av"></b> · η = <span class="big" id="eta"></span></div></div></div>
+</section>
+
+<!-- 2 -->
+<section id="t1" hidden>
+<div class="card"><h2>II. Идеал жылулық машинаның ПӘК-і (Карно)</h2>
+<p>Француз физигі Сади Карно (1796–1832) зерттеулері нәтижесінде идеал машинаның ПӘК-і төмендегі мәннен аса алмайды деген қорытындыға келді. <b>T</b><sub>1</sub> — қыздырғыштың, <b>T</b><sub>2</sub> — суытқыштың абсолют температурасы (кельвинмен).</p>
+<div class="f"><i>η</i> = <span class="fr"><span><i>T</i><sub>1</sub> − <i>T</i><sub>2</sub></span><span><i>T</i><sub>1</sub></span></span>·100%</div></div>
+<div class="g"><div class="card">
+<label>T₁ — қыздырғыш <span id="T1v"></span></label><input type="range" id="T1" min="320" max="2200" step="10" value="1000" aria-label="T1">
+<label>T₂ — суытқыш <span id="T2v"></span></label><input type="range" id="T2" min="0" max="600" step="10" value="300" aria-label="T2">
+<div class="row"><button class="b" data-t="1000,300">Шамамен 70% жағдайы</button><button class="b" data-t="1000,0">1-шарт: T₂ = 0</button><button class="b" data-t="1000,1000">T₂ = T₁</button><button class="b" data-t="2200,300">Дизель (2200 К)</button></div>
+<p>η = <span class="big" id="etaC"></span></p>
+<p id="cond"></p></div>
+<div class="card"><h2>Мүмкін шарттар</h2>
+<p>1) Суытқыш температурасы абсолют нөлге тең болуы керек. 2) Қыздырғыш температурасы суытқыштан әлдеқайда үлкен болуы керек.</p>
+<p class="note">Егер T₂ = 0 болса, η = T₁/T₁·100% = 100%. Бірақ суытқыш температурасы нөлге тең бола алмайды. Салқындатқыш қоспалар атмосфералық ауамен жылулық тепе-теңдікте болғандықтан, суытқыш мәні шамамен 300 К. Қыздырғыш температурасы металдың балқу температурасымен шектеледі. Нәтижесінде идеал машинаның ең үлкен ПӘК-і ≈ 70%, ал шынайы өмірде ≈ 45%.</p>
+<div id="cmp"></div></div></div>
+</section>
+
+<!-- 3 -->
+<section id="t2" hidden>
+<div class="card"><h2>Қозғалтқыштардың ПӘК-ін салыстыру</h2>
+<table class="tbl"><tr><th>Жасалған жылы</th><th>Түрі</th><th>ПӘК, %</th></tr><tr><td>1 4</td><td>Уаттың бу машинасы</td><td>2</td></tr><tr><td>1</td><td>Оттегі ИЖҚ</td><td>22</td></tr><tr><td>1 2</td><td>Дизельдік ИЖҚ</td><td>44</td></tr></table>
+<div class="row"><button class="b on" data-e="all">Барлығы</button><button class="b" data-e="0">Бу машинасы</button><button class="b" data-e="1">Оттегі ИЖҚ</button><button class="b" data-e="2">Дизель</button></div>
+<div id="bars"></div><p class="note" id="einfo"></p></div></section>
+
+<!-- 4 -->
+<section id="t3" hidden>
+<div class="card"><h2>III. Қозғалтқышты жетілдіру жолдары</h2>
+<p>Қалалар мен өнеркәсіп орталықтарында автокөліктің атмосфераны ластаудағы үлесі 70%-ға жетіп отыр. Автокөлік қозғалтқыштарын жетілдіру — қазіргі өзекті мәселелердің бірі.</p>
+<div class="row" id="eb"><button class="b on" data-k="0">1. Ванкель</button><button class="b" data-k="1">2. Дизель</button><button class="b" data-k="2">3. Болашақ: электр көлік</button></div>
+<div id="ek"></div></div>
+<div class="card" id="rotor"><h2>Ванкель қозғалтқышы: төрт такт</h2>
+<svg viewBox="0 0 300 200" aria-label="Роторлы қозғалтқыш"><path d="M150 15C235 15 285 55 285 100S235 185 150 185 15 145 15 100 65 15 150 15Z" fill="none" stroke="var(--ink)" stroke-width="3" transform="scale(1,1)"/>
+<g id="rt" style="transition:transform .8s;transform-origin:150px 100px"><path d="M150 40L212 132L88 132Z" fill="var(--hot)" opacity=".75" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/><circle cx="150" cy="100" r="6" fill="var(--ink)"/></g>
+<text x="30" y="40" id="lIn">сору</text><text x="230" y="40" id="lEx">шығару</text><text x="150" y="196" text-anchor="middle" id="lSp">тұтану (шам)</text></svg>
+<div class="row"><button class="b" data-r="0">1 Сору</button><button class="b" data-r="1">2 Сығу</button><button class="b" data-r="2">3 Тұтану</button><button class="b" data-r="3">4 Шығару</button><button class="b" id="auto">▶ Автоойнату</button></div>
+<p id="rinfo"></p></div></section>
+
+<!-- 5 -->
+<section id="t4" hidden>
+<div class="card"><h2>Жауабы қандай?</h2><div id="quiz"></div></div></section>
+</div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const tabs=["ПӘК","Идеал машина","Қозғалтқыштар","Жетілдіру","Тест"];
+const nav=$("#nav");
+tabs.forEach((n,i)=>{const b=document.createElement("button");b.textContent=n;b.setAttribute("role","tab");b.onclick=()=>show(i);nav.append(b)});
+function show(i){tabs.forEach((_,j)=>{$("#t"+j).hidden=j!=i;nav.children[j].setAttribute("aria-selected",j==i)})}
+show(0);
+/* 1 */
+function u1(){let q1=+$("#q1").value,q2=+$("#q2").value;if(q2>q1){q2=q1;$("#q2").value=q2}
+const A=q1-q2,e=A/q1*100;$("#q1v").textContent=q1+" Дж";$("#q2v").textContent=q2+" Дж";$("#Av").textContent=A+" Дж";$("#eta").textContent=e.toFixed(1)+"%";
+$("#f1").setAttribute("height",10+q1/25);$("#f2").setAttribute("height",q2/25+2);$("#fa").setAttribute("width",A/12+2);
+$("#msg1").textContent=q2==0?"Q₂ = 0 болса η = 100% болар еді, бірақ жылу машинасы тұйық циклде жұмыс істейді: әр циклде суытқышқа энергия беріледі, сондықтан η < 100%.":"η = (1 − "+q2+"/"+q1+")·100% = "+e.toFixed(1)+"%"}
+["q1","q2"].forEach(i=>$("#"+i).oninput=u1);
+$$("[data-p]").forEach(b=>b.onclick=()=>{const[a,c]=b.dataset.p.split(",");$("#q1").value=a;$("#q2").value=c;u1()});u1();
+/* 2 */
+function u2(){const T1=+$("#T1").value,T2=Math.min(+$("#T2").value,T1);$("#T2").value=T2;
+const e=(T1-T2)/T1*100;$("#T1v").textContent=T1+" К";$("#T2v").textContent=T2+" К";$("#etaC").textContent=e.toFixed(1)+"%";
+$("#cond").innerHTML=(T2==0?'<span class="no">T₂ = 0 К — физикалық мүмкін емес (абсолют нөлге жету мүмкін емес).</span>':T2==T1?'<span class="no">T₂ = T₁: температура айырмасы жоқ, жұмыс жасалмайды.</span>':T2>=270&&T2<=330?'<span class="ok">T₂ ≈ 300 К — атмосфералық ауамен тепе-теңдік (шынайы жағдай).</span>':"Суытқыш температурасын 300 К-ге жақындатып көріңіз.");
+$("#cmp").innerHTML=[["Сіздің машина",e,"var(--work)"],["Шынайы ең үлкен",45,"var(--cold)"]].map(r=>`<p style="margin:8px 0 2px">${r[0]}</p><div class="bar" style="width:${Math.max(r[1],8)}%;background:${r[2]}">${r[1].toFixed(0)}%</div>`).join("")}
+["T1","T2"].forEach(i=>$("#"+i).oninput=u2);
+$$("[data-t]").forEach(b=>b.onclick=()=>{const[a,c]=b.dataset.t.split(",");$("#T1").value=a;$("#T2").value=c;u2()});u2();
+/* 3 */
+const E=[["Уаттың бу машинасы",2,"Алғашқы машиналардың ПӘК-і өте төмен — 2%."],["Оттегі ИЖҚ",22,"Оттегі ішкі жану қозғалтқышы: ПӘК 22%."],["Дизельдік ИЖҚ",44,"Дизель: жоғары қысым мен температура (2200 К-ге дейін, 6–10 атм), сондықтан ПӘК жоғары — 44%."]];
+function bars(k){$$("[data-e]").forEach(b=>b.classList.toggle("on",b.dataset.e==k));
+const l=k=="all"?E:[E[k]];$("#bars").innerHTML=l.map(r=>`<p style="margin:8px 0 2px">${r[0]}</p><div class="bar" style="width:0" data-w="${Math.max(r[1],8)}">${r[1]}%</div>`).join("");
+setTimeout(()=>$$("#bars .bar").forEach(b=>b.style.width=b.dataset.w+"%"),30);$("#einfo").textContent=k=="all"?"Түрін таңдап, сипаттамасын оқыңыз.":E[k][2]}
+$$("[data-e]").forEach(b=>b.onclick=()=>bars(b.dataset.e));bars("all");
+/* 4 */
+const K=["<b>Ванкель қозғалтқышы.</b> 1957 жылы неміс инженері Ф.Ванкель роторлы-поршеньді қозғалтқыш жасап шығарды. Ротор мен цилиндр арасындағы саңылаулар үш жану камерасын түзеді. Әр камерада поршень бар төрт тактілі іштен жану процестері жүреді. Артықшылығы — «енбек өнімділігі» жоғары: «бұрқ, сыйу, тұтану, шығару» циклі ротордың бір айналымында үш рет жүреді. Ротор қозғалтқыштар катерлерге, қарда жүретін техникаға және жеңіл ұшақтарға қолданылады.","<b>Дизель.</b> Қоршаған ортаның ластануын азайту және қозғалтқыштың қуатын арттыру жолы — дизельді қолдану. Дизель ауаға газдар мен улы заттарды бөлу жағынан бензинді қозғалтқышпен салыстырғанда екі есе таза. Жанармай жоғары қысымда жанады, температура 2200 К-ге дейін, қысым 6–10 атм-ға дейін артады. Басты артықшылығы — биоотынды қолдану мүмкіндігі.","<b>Болашақ қозғалтқышы.</b> Бензинді қозғалтқыштың орнына аккумулятордан қуатталатын электрқозғалтқыштары бар электр көліктері жасалуда. Аккумулятор ток көзінен (Nissan Leaf 2016, 220 В) немесе күн батареясынан зарядталады. 2017 жылы Австралияда World Solar Challenge жарысында голландиялық «Nuon» тобының күн электр көлігі жеңді. Заманауи электр көліктерінің жылдамдығы 180 км/сағ-қа дейін жетеді."];
+function ek(k){$$("#eb .b").forEach(b=>b.classList.toggle("on",b.dataset.k==k));$("#ek").innerHTML="<p>"+K[k]+"</p>";$("#rotor").hidden=k!=0}
+$$("#eb .b").forEach(b=>b.onclick=()=>ek(b.dataset.k));ek(0);
+const R=["Сору: ротор айналғанда еңгізу саңылауы арқылы камераға ауа-бензин қоспасы сорылады.","Сығу: камера көлемі кішірейіп, қоспа сығылады.","Тұтану: тұтандыру шамы қоспаны жағады, газ көлемі ұлғайып, ротор итеріледі.","Шығару: жанған газ шығару саңылауы арқылы сыртқа шығады."];
+let ri=0,tm=null;function rot(i){ri=i;$("#rt").style.transform=`rotate(${i*30}deg)`;$("#rinfo").textContent=(i+1)+"-такт. "+R[i];$$("[data-r]").forEach(b=>b.classList.toggle("on",b.dataset.r==i))}
+$$("[data-r]").forEach(b=>b.onclick=()=>{stop();rot(+b.dataset.r)});
+function stop(){clearInterval(tm);tm=null;$("#auto").textContent="▶ Автоойнату"}
+$("#auto").onclick=()=>{if(tm)return stop();$("#auto").textContent="⏸ Тоқтату";tm=setInterval(()=>rot((ri+1)%4),1800)};rot(0);
+/* 5 */
+const Q=[["Идеал машинаның ПӘК-і неге 70%-дан аспайды?",["Суытқыш температурасы ≈ 300 К, ал қыздырғыш температурасы металдың балқу температурасымен шектелген","Идеал машинада жылу шығыны өте көп","Қыздырғыш температурасы суытқыштан төмен"],0,"η = (T₁ − T₂)/T₁: T₂ ≈ 300 К, T₁ шектелген, сондықтан η ≈ 70%."],
+["Шынайы машинаның ПӘК-і неге идеал машинаның ПӘК-інен төмен?",["Шынайы машина Карно формуласын қолданбайды","Шынайы машинада үйкеліс, жылу шығыны, жанармайдың толық жанбауы сияқты шығындар бар","Шынайы машинада суытқыш болмайды"],1,"Шынайы өмірде ПӘК шамамен 45%-ға жетеді."],
+["T₁ = 1000 К, T₂ = 300 К болса, идеал ПӘК неге тең?",["30%","70%","100%"],1,"η = (1000 − 300)/1000 · 100% = 70%."]];
+$("#quiz").innerHTML=Q.map((q,i)=>`<div style="margin-bottom:14px"><p><b>${i+1}. ${q[0]}</b></p>${q[1].map((o,j)=>`<button class="b opt" data-q="${i}" data-o="${j}" style="white-space:normal">${o}</button>`).join("")}<p class="note" id="qa${i}"></p></div>`).join("");
+$$("[data-q]").forEach(b=>b.onclick=()=>{const i=+b.dataset.q,ok=+b.dataset.o==Q[i][2];$("#qa"+i).innerHTML=ok?'<span class="ok">Дұрыс!</span> '+Q[i][3]:'<span class="no">Қате, қайта көріңіз.</span>'});
+</script></body></html>
